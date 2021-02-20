@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     }
 
     fun handleHold(view: View) {
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             else -> R.drawable.die_face_6
         }
 
-       binding.rightDiceIv.setImageResource(drawableResourceDiceRight)
+       binding.rightDiceIv.setImageResource(drawableResourceDiceRight) //update the image view
 
         val drawableResourceDiceLeft = when (leftDiceNum){
             1 -> R.drawable.die_face_1
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             else -> R.drawable.die_face_6
         }
 
-        binding.leftDiceIv.setImageResource(drawableResourceDiceLeft)
+        binding.leftDiceIv.setImageResource(drawableResourceDiceLeft) //update the image view
     }
 
 
