@@ -10,71 +10,105 @@
         android:id="@+id/currentPlayerTv"
         android:layout_width="327dp"
         android:layout_height="62dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Current Player: P1"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/player2ScoreTv"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.269" />
 
     <TextView
         android:id="@+id/player2ScoreTv"
         android:layout_width="327dp"
         android:layout_height="61dp"
+        android:layout_marginTop="112dp"
         android:text="Player 2 Total: 0"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="84dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player1ScoreTv"
         android:layout_width="327dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="8dp"
         android:text="Player 1 Total: 0"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/player2ScoreTv"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/leftDiceIv"
-        android:layout_width="172dp"
-        android:layout_height="175dp"
-        app:srcCompat="@drawable/die_face_1"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="233dp" />
+        android:layout_width="177dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="7dp"
+        android:contentDescription="Dice on the left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rightDiceIv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.455"
+        app:srcCompat="@drawable/die_face_1" />
 
     <ImageView
         android:id="@+id/rightDiceIv"
-        android:layout_width="198dp"
-        android:layout_height="174dp"
-        app:srcCompat="@drawable/die_face_1"
-        tools:layout_editor_absoluteX="197dp"
-        tools:layout_editor_absoluteY="233dp" />
+        android:layout_width="182dp"
+        android:layout_height="162dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="Dice on the right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"
+        app:srcCompat="@drawable/die_face_1" />
 
     <Button
         android:id="@+id/rollDiceButton"
         android:layout_width="224dp"
         android:layout_height="77dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="monospace"
         android:onClick="handleRollDice"
         android:text="Roll Dice"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="441dp" />
+        android:typeface="normal"
+        app:layout_constraintBottom_toTopOf="@+id/holdDice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leftDiceIv"
+        app:layout_constraintVertical_bias="0.272" />
 
     <Button
         android:id="@+id/holdDice"
         android:layout_width="224dp"
         android:layout_height="77dp"
+        android:layout_marginTop="44dp"
         android:onClick="handleHold"
         android:text="Hold"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="543dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.814" />
 
     <TextView
         android:id="@+id/turnTotalTv"
         android:layout_width="305dp"
         android:layout_height="54dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="641dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/holdDice"
+        app:layout_constraintVertical_bias="0.389"
         tools:text="Turn total: 0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
