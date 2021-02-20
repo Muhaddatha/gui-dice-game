@@ -7,28 +7,74 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="202dp"
-        android:layout_height="48dp"
+        android:id="@+id/currentPlayerTv"
+        android:layout_width="327dp"
+        android:layout_height="62dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_editor_absoluteX="48dp" />
+        android:text="Current Player: P1"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/player2ScoreTv"
+        tools:layout_editor_absoluteX="42dp" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="202dp"
-        android:layout_height="48dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="94dp" />
+        android:id="@+id/player2ScoreTv"
+        android:layout_width="327dp"
+        android:layout_height="61dp"
+        android:text="Player 2 Total: 0"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="84dp" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="202dp"
-        android:layout_height="48dp"
+        android:id="@+id/player1ScoreTv"
+        android:layout_width="327dp"
+        android:layout_height="62dp"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        tools:layout_editor_absoluteX="48dp" />
+        android:text="Player 1 Total: 0"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/player2ScoreTv"
+        tools:layout_editor_absoluteX="42dp" />
+
+    <ImageView
+        android:id="@+id/leftDiceIv"
+        android:layout_width="172dp"
+        android:layout_height="175dp"
+        app:srcCompat="@drawable/die_face_1"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="233dp" />
+
+    <ImageView
+        android:id="@+id/rightDiceIv"
+        android:layout_width="198dp"
+        android:layout_height="174dp"
+        app:srcCompat="@drawable/die_face_1"
+        tools:layout_editor_absoluteX="197dp"
+        tools:layout_editor_absoluteY="233dp" />
+
+    <Button
+        android:id="@+id/rollDiceButton"
+        android:layout_width="224dp"
+        android:layout_height="77dp"
+        android:onClick="handleRollDice"
+        android:text="Roll Dice"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="441dp" />
+
+    <Button
+        android:id="@+id/holdDice"
+        android:layout_width="224dp"
+        android:layout_height="77dp"
+        android:onClick="handleHold"
+        android:text="Hold"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="543dp" />
+
+    <TextView
+        android:id="@+id/turnTotalTv"
+        android:layout_width="305dp"
+        android:layout_height="54dp"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="641dp"
+        tools:text="Turn total: 0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
