@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">guiDiceGame</string>
+    <string name="player_1_total">Player 1 Total: %d</string>
+    <string name="current_player_p1">Current Player: %s</string>
+    <string name="player_2_total">Player 2 Total: %d</string>
+    <string name="dice_on_the_left">Dice on the left</string>
+    <string name="dice_on_the_right">Dice on the right</string>
+    <string name="hold">Hold</string>
+    <string name="roll_dice">Roll Dice</string>
+    <string name="turn_total">Turn total: %d</string>
 </resources>
