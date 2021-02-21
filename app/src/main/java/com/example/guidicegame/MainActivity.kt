@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     //player 1 is 0 and player 2 is 1 as an index
     var currentPlayer = 0
-    var scores : IntArray = intArrayOf(0, 0)
+    //var scores : IntArray = intArrayOf(0, 0)
     var totalScore : IntArray = intArrayOf(0, 0)
     var currentPlayerName =arrayOf("Current player: P1", "Current player: P2")
     var turnTotal : IntArray = intArrayOf(0, 0)
@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         binding.turnTotalTv.text = "Turn total: 0"
 
         //both players start off with a score of zero
-        scores[0] = 0
-        scores[1] = 0
+       // scores[0] = 0
+       // scores[1] = 0
 
         updateDiceImages(0, 0)
     }
@@ -60,10 +60,7 @@ class MainActivity : AppCompatActivity() {
         binding.holdDice.isClickable = true
 
 
-        Log.i(TAG, "inside handleRollDice function")
-        Log.i(TAG, "right dice: $rightDiceNumber")
-        Log.i(TAG, "Left dice number: $leftDiceNumber")
-
+        Log.i(TAG, "inside handleRollDice function. rolled ($leftDiceNumber, $rightDiceNumber)")
 
 
         //update the view images
@@ -105,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, currentPlayerName[currentPlayer] + " dice numbers different, turn can continue.")
             }
             else{
-                Log.i(TAG, currentPlayerName[currentPlayer] + " rolled a double, turn must continue, HOLD button disabled.");
+                Log.i(TAG, currentPlayerName[currentPlayer] + " rolled a double ($leftDiceNumber, $rightDiceNumber), turn must continue, HOLD button disabled.");
                 //turn doesn't switch
                 binding.holdDice.isEnabled = false
                 binding.holdDice.isClickable = false
@@ -121,11 +118,11 @@ class MainActivity : AppCompatActivity() {
 
         //A player has won the game
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
-            if(currentPlayer == 0){
-                Log.i(TAG, "Player 1 has won")
+            if(totalScore[0] >= 50){
+                Log.i(TAG, "Player 1 has won with a score of ")
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
-            else{
+            else if(totalScore[1] >= 50){
                 Log.i(TAG, "Player 2 has won")
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
@@ -205,7 +202,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.leftDiceIv.setImageResource(drawableResourceDiceLeft) //update the image view
     }
-
 
 }
 
