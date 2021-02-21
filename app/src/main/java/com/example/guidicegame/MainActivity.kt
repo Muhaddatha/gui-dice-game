@@ -74,12 +74,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.holdDice.isClickable = false
             //binding.turnTotalTv.text = "Turn total: 0"
-            currentPlayer = (currentPlayer + 1) % 2 //next player's turn
-            binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
-
-            Timer().schedule(1000){
-                updateDiceImages(0, 0)
-            }
+            switchTurn()
         }
         else if(rightDiceNumber == 1 || leftDiceNumber == 1){
 
@@ -88,21 +83,14 @@ class MainActivity : AppCompatActivity() {
 
             binding.holdDice.isClickable = false
 
-            currentPlayer = (currentPlayer + 1) % 2 //next player's turn
-
-           // binding.turnTotalTv.text = "Turn total: 0"
-            binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
-
-            Timer().schedule(1000){
-                updateDiceImages(0, 0)
-            }
+            switchTurn()
         }
         else{
             if(rightDiceNumber != leftDiceNumber) {
                 Log.i(TAG, currentPlayerName[currentPlayer] + " dice numbers different, turn can continue.")
             }
             else{
-                Log.i(TAG, currentPlayerName[currentPlayer] + " rolled a double ($leftDiceNumber, $rightDiceNumber), turn must continue, HOLD button disabled.");
+                Log.i(TAG, currentPlayerName[currentPlayer] + " rolled a double ($leftDiceNumber, $rightDiceNumber), turn must continue, HOLD button disabled.")
                 //turn doesn't switch
                 binding.holdDice.isEnabled = false
                 binding.holdDice.isClickable = false
@@ -115,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "\n")
         binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
 
-
+        //switchTurn()
         //A player has won the game
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
             if(totalScore[0] >= 50){
@@ -127,11 +115,13 @@ class MainActivity : AppCompatActivity() {
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
 
+            updateDiceImages(rightDiceNumber, leftDiceNumber)
             binding.holdDice.isEnabled = false
             binding.holdDice.isClickable = false
             binding.rollDiceButton.isEnabled = false
             binding.rollDiceButton.isClickable = false
         }
+
 
     }
 
@@ -144,16 +134,11 @@ class MainActivity : AppCompatActivity() {
             binding.player2ScoreTv.text = "Player 2 Total: " + totalScore[currentPlayer]
         }
 
-        binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
         turnTotal[currentPlayer] = 0
+        binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
 
-        //next player's turn
-        currentPlayer = (currentPlayer + 1) % 2
-        binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
 
-        Timer().schedule(1000){
-            updateDiceImages(0, 0)
-        }
+
 
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
             if(currentPlayer == 0){
@@ -165,10 +150,15 @@ class MainActivity : AppCompatActivity() {
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
 
+            Log.i(TAG, "Inside hold winning, ($leftDiceNumber, $rightDiceNumber)")
+            updateDiceImages(rightDiceNumber, leftDiceNumber)
             binding.holdDice.isEnabled = false
             binding.holdDice.isClickable = false
             binding.rollDiceButton.isEnabled = false
             binding.rollDiceButton.isClickable = false
+        }
+        else {
+            switchTurn()
         }
 
 
@@ -201,6 +191,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.leftDiceIv.setImageResource(drawableResourceDiceLeft) //update the image view
+    }
+
+
+    private fun switchTurn(){
+        //next player's turn
+        currentPlayer = (currentPlayer + 1) % 2
+        binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+
+        Timer().schedule(1000){
+            updateDiceImages(0, 0)
+        }
     }
 
 }
