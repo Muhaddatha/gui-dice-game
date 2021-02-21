@@ -12,7 +12,7 @@
         android:layout_height="62dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/current_player_p1"
+        android:text="@string/current_player"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

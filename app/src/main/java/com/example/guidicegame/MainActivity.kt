@@ -1,5 +1,5 @@
 package com.example.guidicegame
-
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,10 +13,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding //for binding
 
-    var currentPlayer = 1
-    var player1Score = 0
-    var player2Score = 0
-    var turnTotal = 0
+    //player 1 is 0 and player 2 is 1 as an index
+    var currentPlayer = 0
+    var scores : IntArray = intArrayOf(0, 0)
+    var totalScore : IntArray = intArrayOf(0, 0)
+    var currentPlayerName =arrayOf("Current player: P1", "Current player: P2")
+    var turnTotal : IntArray = intArrayOf(0, 0)
+
     var rightDiceNumber = 0
     var leftDiceNumber = 0
 
@@ -32,29 +35,130 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater) //for binding
         setContentView(binding.root) //for binding
 
-        binding.holdDice.text = "Something else"
+//        binding.player1ScoreTv.text = "Player 1 Total: 0"
+        binding.player1ScoreTv.text = "Player 1 Total: 0"
+        binding.player2ScoreTv.text = "Player 2 Total: 0"
+        binding.currentPlayerTv.text = "Current player: P1"
+        binding.turnTotalTv.text = "Turn total: 0"
+
+        //both players start off with a score of zero
+        scores[0] = 0
+        scores[1] = 0
 
 
     }
 
     fun handleRollDice(view: View) {
-        if(debugging){
-            Log.i(TAG, "inside handleRollDice function")
-        }
 
         //generate random numbers for dice roll
-        rightDiceNumber = (1..7).random()
-        leftDiceNumber = (1..7).random()
+        rightDiceNumber = (1..6).random()
+        leftDiceNumber = (1..6).random()
+
+        binding.holdDice.isEnabled = true
+        binding.holdDice.isClickable = true
+
+
+        Log.i(TAG, "inside handleRollDice function")
+        Log.i(TAG, "right dice: $rightDiceNumber")
+        Log.i(TAG, "Left dice number: $leftDiceNumber")
+
+
 
         //update the view images
         updateDiceImages(rightDiceNumber, leftDiceNumber)
 
+        if(rightDiceNumber == 1 && leftDiceNumber == 1){
+
+            Log.i(TAG, currentPlayerName[currentPlayer] + " lost total points for rolling (1, 1)")
+            totalScore[currentPlayer] = 0
+            turnTotal[currentPlayer] = 0
+
+            binding.holdDice.isClickable = false
+            //binding.turnTotalTv.text = "Turn total: 0"
+            currentPlayer = (currentPlayer + 1) % 2 //next player's turn
+            binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+        }
+        else if(rightDiceNumber == 1 || leftDiceNumber == 1){
+
+            Log.i(TAG, currentPlayerName[currentPlayer] + " lost the turn's points for rolling a 1")
+            turnTotal[currentPlayer] = 0
+
+            binding.holdDice.isClickable = false
+
+            currentPlayer = (currentPlayer + 1) % 2 //next player's turn
+           // binding.turnTotalTv.text = "Turn total: 0"
+            binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+        }
+        else{
+            if(rightDiceNumber != leftDiceNumber) {
+                Log.i(TAG, currentPlayerName[currentPlayer] + " dice numbers different, turn can continue.")
+            }
+            else{
+                Log.i(TAG, currentPlayerName[currentPlayer] + " rolled a double, turn must continue, HOLD button disabled.");
+                //turn doesn't switch
+                binding.holdDice.isEnabled = false
+                binding.holdDice.isClickable = false
+            }
+
+            turnTotal[currentPlayer] += rightDiceNumber + leftDiceNumber
+
+        }
+
+        Log.i(TAG, "\n")
+        binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
 
 
+        //A player has won the game
+        if(totalScore[0] >= 50 || totalScore[1] >= 50){
+            if(currentPlayer == 0){
+                Log.i(TAG, "Player 1 has won")
+                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+            }
+            else{
+                Log.i(TAG, "Player 2 has won")
+                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+            }
+
+            binding.holdDice.isEnabled = false
+            binding.holdDice.isClickable = false
+            binding.rollDiceButton.isEnabled = false
+            binding.rollDiceButton.isClickable = false
+        }
 
     }
 
     fun handleHold(view: View) {
+        totalScore[currentPlayer] += turnTotal[currentPlayer]
+        if(currentPlayer == 0){
+            binding.player1ScoreTv.text = "Player 1 Total: " + totalScore[currentPlayer]
+        }
+        else{
+            binding.player2ScoreTv.text = "Player 2 Total: " + totalScore[currentPlayer]
+        }
+
+        binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
+        turnTotal[currentPlayer] = 0
+
+        //next player's turn
+        currentPlayer = (currentPlayer + 1) % 2
+        binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+
+        if(totalScore[0] >= 50 || totalScore[1] >= 50){
+            if(currentPlayer == 0){
+                Log.i(TAG, "Player 1 has won")
+                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+            }
+            else{
+                Log.i(TAG, "Player 2 has won")
+                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+            }
+
+            binding.holdDice.isEnabled = false
+            binding.holdDice.isClickable = false
+            binding.rollDiceButton.isEnabled = false
+            binding.rollDiceButton.isClickable = false
+        }
+
 
     }
 
