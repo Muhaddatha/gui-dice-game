@@ -7,7 +7,6 @@ import com.example.guidicegame.databinding.ActivityMainBinding //for binding
 import kotlin.random.Random
 import android.util.Log
 import android.widget.ImageView
-import com.example.guidicegame.R.drawable.die_face_1
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -25,9 +24,6 @@ class MainActivity : AppCompatActivity() {
     var rightDiceNumber = 0
     var leftDiceNumber = 0
 
-    var debugging = true
-
-    //var rn = Random.nextInt(7) //object from random class
     val TAG = "Log"
 
 
@@ -37,15 +33,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater) //for binding
         setContentView(binding.root) //for binding
 
-//        binding.player1ScoreTv.text = "Player 1 Total: 0"
         binding.player1ScoreTv.text = "Player 1 Total: 0"
         binding.player2ScoreTv.text = "Player 2 Total: 0"
         binding.currentPlayerTv.text = "Current player: P1"
         binding.turnTotalTv.text = "Turn total: 0"
-
-        //both players start off with a score of zero
-       // scores[0] = 0
-       // scores[1] = 0
 
         updateDiceImages(0, 0)
     }
@@ -66,23 +57,25 @@ class MainActivity : AppCompatActivity() {
         //update the view images
         updateDiceImages(rightDiceNumber, leftDiceNumber)
 
-        if(rightDiceNumber == 1 && leftDiceNumber == 1){
+        if(rightDiceNumber == 1 || leftDiceNumber == 1){
 
-            Log.i(TAG, currentPlayerName[currentPlayer] + " lost total points for rolling (1, 1)")
-            totalScore[currentPlayer] = 0
+            if(rightDiceNumber == 1 && leftDiceNumber == 1){
+                Log.i(TAG, currentPlayerName[currentPlayer] + " lost total points for rolling (1, 1), total score was: " + totalScore[currentPlayer])
+                totalScore[currentPlayer] = 0
+                if(currentPlayer == 0){
+                    binding.player1ScoreTv.text = "Player 1 Total: 0"
+                }
+                else{
+                    binding.player2ScoreTv.text = "Player 2 Total: 0"
+                }
+            }
+            else{
+                Log.i(TAG, currentPlayerName[currentPlayer] + " lost the turn's points for rolling a 1")
+            }
+
             turnTotal[currentPlayer] = 0
 
             binding.holdDice.isClickable = false
-            //binding.turnTotalTv.text = "Turn total: 0"
-            switchTurn()
-        }
-        else if(rightDiceNumber == 1 || leftDiceNumber == 1){
-
-            Log.i(TAG, currentPlayerName[currentPlayer] + " lost the turn's points for rolling a 1")
-            turnTotal[currentPlayer] = 0
-
-            binding.holdDice.isClickable = false
-
             switchTurn()
         }
         else{
@@ -103,16 +96,16 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "\n")
         binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
 
-        //switchTurn()
+
         //A player has won the game
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
             if(totalScore[0] >= 50){
-                Log.i(TAG, "Player 1 has won with a score of ")
+                Log.i(TAG, "Player 1 has won with a score of " + totalScore[0])
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
             else if(totalScore[1] >= 50){
-                Log.i(TAG, "Player 2 has won")
-                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+                Log.i(TAG, "Player 2 has won with a score of " + totalScore[1])
+                binding.player2ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
 
             updateDiceImages(rightDiceNumber, leftDiceNumber)
@@ -126,6 +119,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handleHold(view: View) {
+
+        Log.i(TAG, "Inside hold function, dice values of ($leftDiceNumber, $rightDiceNumber)")
+
         totalScore[currentPlayer] += turnTotal[currentPlayer]
         if(currentPlayer == 0){
             binding.player1ScoreTv.text = "Player 1 Total: " + totalScore[currentPlayer]
@@ -141,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
-            if(currentPlayer == 0){
+            if(totalScore[0] == 0){
                 Log.i(TAG, "Player 1 has won")
                 binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
             }
