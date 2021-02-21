@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     val TAG = "Log"
 
 
+    //called when app is opened
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         updateDiceImages(0, 0)
     }
 
+
+    //generates random dice number and decides if turn should switch or continue
     fun handleRollDice(view: View) {
 
         //generate random numbers for dice roll
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         if(rightDiceNumber == 1 || leftDiceNumber == 1){
 
-            if(rightDiceNumber == 1 && leftDiceNumber == 1){
+            if(rightDiceNumber == 1 && leftDiceNumber == 1){ //rolled (1, 1) -> remove total score and switch turn
                 Log.i(TAG, currentPlayerName[currentPlayer] + " lost total points for rolling (1, 1), total score was: " + totalScore[currentPlayer])
                 totalScore[currentPlayer] = 0
                 if(currentPlayer == 0){
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     binding.player2ScoreTv.text = "Player 2 Total: 0"
                 }
             }
-            else{
+            else{ //rolled (1, x) return turn total and switch to next player
                 Log.i(TAG, currentPlayerName[currentPlayer] + " lost the turn's points for rolling a 1")
             }
 
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             binding.holdDice.isClickable = false
             switchTurn()
         }
-        else{
+        else{ //turn may continue, if player wants to switch turn, they may click the hold button
             if(rightDiceNumber != leftDiceNumber) {
                 Log.i(TAG, currentPlayerName[currentPlayer] + " dice numbers different, turn can continue.")
             }
@@ -99,20 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         //A player has won the game
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
-            if(totalScore[0] >= 50){
-                Log.i(TAG, "Player 1 has won with a score of " + totalScore[0])
-                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
-            }
-            else if(totalScore[1] >= 50){
-                Log.i(TAG, "Player 2 has won with a score of " + totalScore[1])
-                binding.player2ScoreTv.setTextColor(Color.parseColor("#18993b"))
-            }
-
-            updateDiceImages(rightDiceNumber, leftDiceNumber)
-            binding.holdDice.isEnabled = false
-            binding.holdDice.isClickable = false
-            binding.rollDiceButton.isEnabled = false
-            binding.rollDiceButton.isClickable = false
+            announceWinner()
         }
 
 
@@ -122,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.i(TAG, "Inside hold function, dice values of ($leftDiceNumber, $rightDiceNumber)")
 
-        totalScore[currentPlayer] += turnTotal[currentPlayer]
+        totalScore[currentPlayer] += turnTotal[currentPlayer] //add turn total to total score
         if(currentPlayer == 0){
             binding.player1ScoreTv.text = "Player 1 Total: " + totalScore[currentPlayer]
         }
@@ -133,25 +123,9 @@ class MainActivity : AppCompatActivity() {
         turnTotal[currentPlayer] = 0
         binding.turnTotalTv.text = "Turn total: " + turnTotal[currentPlayer]
 
-
-
-
+        //a player has one
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
-            if(totalScore[0] == 0){
-                Log.i(TAG, "Player 1 has won")
-                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
-            }
-            else{
-                Log.i(TAG, "Player 2 has won")
-                binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
-            }
-
-            Log.i(TAG, "Inside hold winning, ($leftDiceNumber, $rightDiceNumber)")
-            updateDiceImages(rightDiceNumber, leftDiceNumber)
-            binding.holdDice.isEnabled = false
-            binding.holdDice.isClickable = false
-            binding.rollDiceButton.isEnabled = false
-            binding.rollDiceButton.isClickable = false
+            announceWinner()
         }
         else {
             switchTurn()
@@ -190,14 +164,40 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //switch the turn to the next person and update view
     private fun switchTurn(){
         //next player's turn
         currentPlayer = (currentPlayer + 1) % 2
-        binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+//        binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
 
         Timer().schedule(1000){
             updateDiceImages(0, 0)
+            binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
         }
+    }
+
+
+    //updates gui with winner and disables all buttons
+    private fun announceWinner(){
+        //turn text color of winning person green
+        if(totalScore[0] >= 50){
+            Log.i(TAG, "Player 1 has won, total score: " + totalScore[0])
+            binding.player1ScoreTv.setTextColor(Color.parseColor("#18993b"))
+        }
+        else{
+            Log.i(TAG, "Player 2 has won, total score: " + totalScore[1])
+            binding.player2ScoreTv.setTextColor(Color.parseColor("#18993b"))
+        }
+
+        Log.i(TAG, "Inside hold winning, ($leftDiceNumber, $rightDiceNumber)")
+        updateDiceImages(rightDiceNumber, leftDiceNumber)
+
+        //disable all buttons since someone has won the game
+        binding.holdDice.isEnabled = false
+        binding.holdDice.isClickable = false
+        binding.rollDiceButton.isEnabled = false
+        binding.rollDiceButton.isClickable = false
+
     }
 
 }
