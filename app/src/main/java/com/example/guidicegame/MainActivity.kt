@@ -8,6 +8,8 @@ import kotlin.random.Random
 import android.util.Log
 import android.widget.ImageView
 import com.example.guidicegame.R.drawable.die_face_1
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         scores[0] = 0
         scores[1] = 0
 
-
+        updateDiceImages(0, 0)
     }
 
     fun handleRollDice(view: View) {
@@ -77,6 +79,10 @@ class MainActivity : AppCompatActivity() {
             //binding.turnTotalTv.text = "Turn total: 0"
             currentPlayer = (currentPlayer + 1) % 2 //next player's turn
             binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+
+            Timer().schedule(1000){
+                updateDiceImages(0, 0)
+            }
         }
         else if(rightDiceNumber == 1 || leftDiceNumber == 1){
 
@@ -86,8 +92,13 @@ class MainActivity : AppCompatActivity() {
             binding.holdDice.isClickable = false
 
             currentPlayer = (currentPlayer + 1) % 2 //next player's turn
+
            // binding.turnTotalTv.text = "Turn total: 0"
             binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
+
+            Timer().schedule(1000){
+                updateDiceImages(0, 0)
+            }
         }
         else{
             if(rightDiceNumber != leftDiceNumber) {
@@ -143,6 +154,10 @@ class MainActivity : AppCompatActivity() {
         currentPlayer = (currentPlayer + 1) % 2
         binding.currentPlayerTv.text = currentPlayerName[currentPlayer]
 
+        Timer().schedule(1000){
+            updateDiceImages(0, 0)
+        }
+
         if(totalScore[0] >= 50 || totalScore[1] >= 50){
             if(currentPlayer == 0){
                 Log.i(TAG, "Player 1 has won")
@@ -167,6 +182,7 @@ class MainActivity : AppCompatActivity() {
         //updates dice picture/image view given the randomly generated numbers
 
         val drawableResourceDiceRight = when (rightDiceNum){
+            0 -> R.drawable.die_face_0
             1 -> R.drawable.die_face_1
             2 -> R.drawable.die_face_2
             3 -> R.drawable.die_face_3
@@ -178,6 +194,7 @@ class MainActivity : AppCompatActivity() {
        binding.rightDiceIv.setImageResource(drawableResourceDiceRight) //update the image view
 
         val drawableResourceDiceLeft = when (leftDiceNum){
+            0 -> R.drawable.die_face_0
             1 -> R.drawable.die_face_1
             2 -> R.drawable.die_face_2
             3 -> R.drawable.die_face_3
